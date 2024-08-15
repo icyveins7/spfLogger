@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <string>
 #include <stdexcept>
+#include <ctime>
 
 namespace spf
 {
@@ -73,17 +74,30 @@ protected:
 
   template <typename... Args>
   void log(const char* prefix, const char* fmt, Args... args) {
-    fprintf(m_printstream, "%s (%s: %d) ", 
+    datetime_formatter();
+    fprintf(m_printstream, "%s (%s: %d) ",
             prefix, __FILE__, __LINE__);
     fprintf(m_printstream, fmt, args...);
     fprintf(m_printstream, "\n");
 
     if (m_fp != nullptr)
     {
-      fprintf(m_fp, prefix);
+      fprintf(m_fp, "%s (%s: %d) ",
+              prefix, __FILE__, __LINE__);
       fprintf(m_fp, fmt, args...);
       fprintf(m_fp, "\n");
     }
+  }
+
+  void datetime_formatter() {
+    std::time_t t = std::time({});
+    char timeString[std::size("yyyy-mm-ddThh:mm:ssZ")];
+    std::strftime(std::data(timeString), std::size(timeString),
+                  "%FT%TZ", std::gmtime(&t));
+
+    fprintf(m_printstream, "%s ", timeString);
+    if (m_fp != nullptr)
+      fprintf(m_fp, "%s ", timeString);
   }
 };
 
