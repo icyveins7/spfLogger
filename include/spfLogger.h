@@ -12,15 +12,17 @@ namespace spf
 class Logger
 {
 public:
-  Logger() {
-    // Empty
-  }
-
-  Logger(std::string logfilepath)
-    : m_logfilepath(logfilepath) 
+  /**
+   * @brief Constructs a logger with an optional log file.
+   *
+   * @param logfilepath Path to log file. Leave empty to disable.
+   */
+  Logger(std::string logfilepath="")
+    : m_logfilepath(logfilepath)
   {
     open_file();
   }
+
 
   ~Logger() {
     // Close file if open
@@ -54,7 +56,7 @@ public:
   }
 
 protected:
-  std::string m_logfilepath;
+  std::string m_logfilepath = "";
   FILE* m_fp = nullptr;
   FILE* m_printstream = stdout;
 
@@ -66,10 +68,12 @@ protected:
       m_fp = nullptr;
     }
 
-    // Open a new one
-    m_fp = fopen(m_logfilepath.c_str(), "w");
-    if (!m_fp)
-      throw std::runtime_error("Failed to open logfile.");
+    // Open a new one if specified
+    if (m_logfilepath.size() > 0) {
+      m_fp = fopen(m_logfilepath.c_str(), "w");
+      if (!m_fp)
+        throw std::runtime_error("Failed to open logfile.");
+    }
   }
 
   template <typename... Args>
