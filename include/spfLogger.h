@@ -49,7 +49,7 @@ public:
 
   template <typename... Args>
   void log_debug(const char* fmt, Args... args) {
-    log("DEBUG: ", fmt, args...);
+    log("DEBUG", fmt, args...);
   }
 
 protected:
@@ -73,7 +73,8 @@ protected:
 
   template <typename... Args>
   void log(const char* prefix, const char* fmt, Args... args) {
-    fprintf(m_printstream, prefix);
+    fprintf(m_printstream, "%s (%s: %d) ", 
+            prefix, __FILE__, __LINE__);
     fprintf(m_printstream, fmt, args...);
     fprintf(m_printstream, "\n");
 
