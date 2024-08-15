@@ -70,7 +70,7 @@ protected:
 
     // Open a new one if specified
     if (m_logfilepath.size() > 0) {
-      m_fp = fopen(m_logfilepath.c_str(), "w");
+      m_fp = fopen(m_logfilepath.c_str(), "a");
       if (!m_fp)
         throw std::runtime_error("Failed to open logfile.");
     }
@@ -79,15 +79,17 @@ protected:
   template <typename... Args>
   void log(const char* prefix, const char* fmt, Args... args) {
     datetime_formatter();
-    fprintf(m_printstream, "%s (%s: %d) ",
-            prefix, __FILE__, __LINE__);
+    fprintf(m_printstream, "%s ", prefix);
+    // fprintf(m_printstream, "(%s: %d) ",
+    //         __FILE__, __LINE__);
     fprintf(m_printstream, fmt, args...);
     fprintf(m_printstream, "\n");
 
     if (m_fp != nullptr)
     {
-      fprintf(m_fp, "%s (%s: %d) ",
-              prefix, __FILE__, __LINE__);
+      fprintf(m_fp, "%s ", prefix);
+      // fprintf(m_fp, "(%s: %d) ",
+      //         __FILE__, __LINE__);
       fprintf(m_fp, fmt, args...);
       fprintf(m_fp, "\n");
     }
