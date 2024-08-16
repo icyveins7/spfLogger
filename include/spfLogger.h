@@ -10,6 +10,7 @@
 namespace spf
 {
 
+// https://www.cppstories.com/2021/non-terminal-variadic-args/
 // Forward declaration
 class Logger;
 
