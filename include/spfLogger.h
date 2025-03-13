@@ -105,7 +105,7 @@ private:
     fprintf(m_printstream, "(%s: %d) ",
             m_loc.file_name(), m_loc.line());
     fprintf(m_printstream, fmt, args...);
-    fprintf(m_printstream, "\n");
+    // don't add new line, just like printf
 
     if (m_fp != nullptr)
     {
@@ -113,7 +113,7 @@ private:
       fprintf(m_fp, "(%s: %d) ",
               m_loc.file_name(), m_loc.line());
       fprintf(m_fp, fmt, args...);
-      fprintf(m_fp, "\n");
+      // don't add new line
     }
   }
 
