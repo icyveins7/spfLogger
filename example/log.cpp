@@ -14,5 +14,10 @@ int main()
   // FILE *fe;
   // spf::PrivateLogWriter(std::source_location::current(), fe, fe);
 
+
+  double x = 1234.5;
+  logger().inspect(x, "%.4f\n");
+  logger().inspect(x, "%7.3g\n");
+
   return 0;
 }

@@ -136,6 +136,24 @@ private:
 
 };
 
+/*
+ * Here are some additional 'functions' that require macros since
+ * C++ doesn't offer reflection.
+ *
+ * They simply wrap the original logger methods above; e.g.
+ *
+ *    lgr().inspect(x, "%.4f\n");
+ */
+
+/**
+ * @brief Inspects a variable; shortcut to using info(). Uses # stringify operator macro.
+ * Prints "x = value" depending on user-input format.
+ *
+ * @param x Variable to inspect.
+ * @param f Format to print, like "%f".
+ */
+#define inspect(x, f) info(#x " = " f, x)
+
 /**
  * @class Logger
  * @brief This is the class you should instantiate.
